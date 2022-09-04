@@ -16,11 +16,12 @@ const Main = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     Data(state).then((response) => {
       setData(response);
     });
   };
+
+  console.log(data);
 
   useEffect(() => {
     axios
@@ -32,6 +33,29 @@ const Main = (props) => {
         console.error("ops! ocorreu um erro : " + err);
       });
   }, []);
+
+  if (data.error) {
+    return (
+      <>
+        <ContainerDiv>
+          <form onSubmit={handleSubmit}>
+            <InputSearch onChange={(e) => setState(e.target.value)} />
+            <ButtonSearch type="submit" text="Search" size="large" />
+          </form>
+
+          <BasicCard
+            city="Location Not Found"
+            temp={`0C°`}
+            region={`Location Not Found`}
+            country={`Try Again`}
+            src={`//cdn.weatherapi.com/weather/64x64/day/116.png`}
+            text={`Location Not Found`}
+          />
+        </ContainerDiv>
+      </>
+    );
+  }
+  console.log(data);
 
   return (
     <>
